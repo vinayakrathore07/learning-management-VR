@@ -15,9 +15,15 @@ const NonDashboardNavbar = () => {
     <nav className="nondashboard-navbar">
       <div className="nondashboard-navbar__container">
         <div className="nondashboard-navbar__search">
-          <Link href="/" className="nondashboard-navbar__brand" scroll={false}>
-            V-LERN
-          </Link>
+                      <Link
+              href="/"
+              scroll={false}
+              className="nondashboard-navbar__brand text-xl font-semibold tracking-tight"
+            >
+              <span className="font-bold">V</span>
+              <span className="mx-0.5">-</span>
+              <span className="font-medium">Learn</span>
+            </Link>
           <div className="flex items-center gap-4">
             <div className="relative group">
               <Link
