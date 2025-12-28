@@ -1,21 +1,50 @@
-# learning-management-VR
-A full-stack Learning Management System (LMS) - V-LERN. Features role-based dashboards (Student/Teacher), course creation &amp; editing, video player with progress tracking, Stripe payments for enrollment, enrolled courses list. Built with Next.js 16, Clerk auth, DynamoDB, Tailwind, ShadCN. Personal project by Vinayak Rathore 🚀
+# V-Learn – Learning Management System
 
-## V-Learn – Learning Management System
+A full-stack Learning Management System (LMS) built using a modern, cloud-native architecture.  
+The platform supports role-based dashboards (Student / Teacher), secure video uploads, and scalable content delivery.
 
-A full-stack LMS built using modern cloud-native architecture.
+---
 
-### Tech Stack
-- Next.js (Frontend)
-- AWS Lambda (Container)
-- API Gateway
-- DynamoDB
-- S3 + CloudFront
+## 🚀 Overview
+V-Learn is a personal project by **Vinayak Rathore**, designed to demonstrate real-world full-stack and cloud engineering concepts using AWS serverless services.
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- Next.js
+- Tailwind CSS
+- ShadCN UI
 - Clerk Authentication
 
-### Features
-- Secure video uploads using presigned URLs
-- Private S3 bucket with CloudFront CDN
-- Role-based access ready
-- Scalable serverless backend
+### Backend & Cloud
+- AWS Lambda (Container Image)
+- API Gateway
+- DynamoDB
+- Amazon S3 (Private)
+- Amazon CloudFront (CDN)
 
+---
+
+## ✨ Features
+- Role-based dashboards (Student / Instructor)
+- Course creation & editing
+- Secure video uploads using **S3 presigned URLs**
+- Private S3 bucket served via **CloudFront**
+- Video playback with progress tracking
+- Stripe integration for course enrollment
+- Scalable serverless backend architecture
+
+---
+
+## 🔐 Security & Architecture Highlights
+- Private S3 bucket with CloudFront Origin Access Control (OAC)
+- Direct browser uploads using presigned URLs (no file uploads through Lambda)
+- Environment-based configuration for frontend & backend
+- Cloud-native, scalable, and cost-efficient design
+
+---
+
+## 📌 Project Type
+Personal / Portfolio Project
