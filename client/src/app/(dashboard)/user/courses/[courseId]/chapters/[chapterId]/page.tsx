@@ -97,11 +97,13 @@ const Course = () => {
                 },
               }}
             />
-          ) : (
-            <div className="course__no-video">
-              No video available for this chapter.
-            </div>
-          )}
+                      ) : isLoading ? (
+              <div className="course__no-video">Loading video…</div>
+            ) : (
+              <div className="course__no-video">
+                No video available for this chapter.
+              </div>
+            )}
         </CardContent>
       </Card>
 
