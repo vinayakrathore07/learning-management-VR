@@ -67,40 +67,41 @@ const Course = () => {
             {isLoading ? (
               <div className="course__no-video">Loading video…</div>
             ) : typeof currentChapter?.video === "string" ? (
-              <ReactPlayer
-                key={currentChapter.video} // ✅ forces remount when URL changes
-                url={currentChapter.video}
-                controls
-                width="100%"
-                height="100%"
-                playsinline
-                onProgress={(state: any) => {
-                  if (
-                    state.played >= 0.8 &&
-                    !hasMarkedComplete &&
-                    currentChapter &&
-                    currentSection &&
-                    userProgress?.sections &&
-                    !isChapterCompleted()
-                  ) {
-                    setHasMarkedComplete(true);
-                    updateChapterProgress(
-                      currentSection.sectionId,
-                      currentChapter.chapterId,
-                      true
-                    );
-                  }
-                }}
-                config={{
-                  file: {
-                    forceVideo: true, // ✅ IMPORTANT for mp4
-                    attributes: {
-                      preload: "auto",
-                      controlsList: "nodownload",
+                <ReactPlayer
+                  key={currentChapter.video}
+                  url={currentChapter.video}
+                  controls
+                  width="100%"
+                  height="100%"
+                  playsinline
+                  onProgress={(state: any) => {
+                    if (
+                      state.played >= 0.8 &&
+                      !hasMarkedComplete &&
+                      currentChapter &&
+                      currentSection &&
+                      userProgress?.sections &&
+                      !isChapterCompleted()
+                    ) {
+                      setHasMarkedComplete(true);
+                      updateChapterProgress(
+                        currentSection.sectionId,
+                        currentChapter.chapterId,
+                        true
+                      );
+                    }
+                  }}
+                  config={{
+                    file: {
+                      forceVideo: true,
+                      attributes: {
+                        preload: "auto",
+                        crossOrigin: "anonymous", // 🔴 THIS IS THE FIX
+                        controlsList: "nodownload",
+                      },
                     },
-                  },
-                }}
-              />
+                  }}
+                />
             ) : (
               <div className="course__no-video">
                 No video available for this chapter.
