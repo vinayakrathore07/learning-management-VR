@@ -62,50 +62,50 @@ const Course = () => {
           </div>
         </div>
 
-              <Card className="course__video">
-        <CardContent className="course__video-container">
-          {typeof currentChapter?.video === "object" &&
-          currentChapter.video !== null &&
-          "video" in currentChapter.video ? (
-            <ReactPlayer
-              url={currentChapter.video.video}
-              controls
-              width="100%"
-              height="100%"
-              onProgress={(state: any) => {
-                if (
-                  state.played >= 0.8 &&
-                  !hasMarkedComplete &&
-                  currentChapter &&
-                  currentSection &&
-                  userProgress?.sections &&
-                  !isChapterCompleted()
-                ) {
-                  setHasMarkedComplete(true);
-                  updateChapterProgress(
-                    currentSection.sectionId,
-                    currentChapter.chapterId,
-                    true
-                  );
-                }
-              }}
-              config={{
-                file: {
-                  attributes: {
-                    controlsList: "nodownload",
+        <Card className="course__video">
+          <CardContent className="course__video-container">
+             {typeof currentChapter?.video === "string" ? (
+              <ReactPlayer
+                // ref={playerRef}
+                url={currentChapter.video}
+                controls
+                width="100%"
+                height="100%"
+                onProgress={(state: any) => {
+                  if (
+                    state.played >= 0.8 &&
+                    !hasMarkedComplete &&
+                    currentChapter &&
+                    currentSection &&
+                    userProgress?.sections &&
+                    !isChapterCompleted()
+                  ) {
+                    setHasMarkedComplete(true);
+                    updateChapterProgress(
+                      currentSection.sectionId,
+                      currentChapter.chapterId,
+                      true
+                    );
+                  }
+                }}
+
+                config={{
+                  file: {
+                    attributes: {
+                      controlsList: "nodownload",
+                    },
                   },
-                },
-              }}
-            />
-                      ) : isLoading ? (
-              <div className="course__no-video">Loading video…</div>
-            ) : (
-              <div className="course__no-video">
-                No video available for this chapter.
-              </div>
-            )}
-        </CardContent>
-      </Card>
+                }}
+              />
+                        ) : isLoading ? (
+                  <div className="course__no-video">Loading video…</div>
+                ) : (
+                  <div className="course__no-video">
+                    No video available for this chapter.
+                  </div>
+                        )}
+          </CardContent>
+        </Card>
 
         <div className="course__content">
           <Tabs defaultValue="Notes" className="course__tabs">
