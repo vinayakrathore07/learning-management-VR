@@ -1,18 +1,10 @@
 "use client";
 
-import dynamic from "next/dynamic";
-// import { useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/src/components/ui/avatar";
-// import ReactPlayer from "react-player";
 import Loading from "@/src/components/Loading";
 import { useCourseProgressData } from "@/src/hooks/useCourseProgressData";
-
-
-const ReactPlayer = dynamic(() => import("react-player"), {
-  ssr: false,
-}) as any;
 
 const Course = () => {
   const {
@@ -27,11 +19,9 @@ const Course = () => {
     hasMarkedComplete,
     setHasMarkedComplete,
   } = useCourseProgressData();
-  console.log("currentChapter.video:", currentChapter);
 
-  // const playerRef = useRef<typeof ReactPlayer | null>(null);
+  console.log("currentChapter.video:", currentChapter?.video);
 
-  
   if (isLoading) return <Loading />;
   if (!user) return <div>Please sign in to view this course.</div>;
   if (!course || !userProgress) return <div>Error loading course</div>;
@@ -39,6 +29,7 @@ const Course = () => {
   return (
     <div className="course">
       <div className="course__container">
+        {/* Breadcrumb */}
         <div className="course__breadcrumb">
           <div className="course__path">
             {course.title} / {currentSection?.sectionTitle} /{" "}
@@ -46,7 +37,9 @@ const Course = () => {
               {currentChapter?.title}
             </span>
           </div>
+
           <h2 className="course__title">{currentChapter?.title}</h2>
+
           <div className="course__header">
             <div className="course__instructor">
               <Avatar className="course__avatar">
@@ -62,46 +55,42 @@ const Course = () => {
           </div>
         </div>
 
+        {/* VIDEO SECTION */}
         <Card className="course__video">
           <CardContent className="course__video-container">
-            {isLoading ? (
-              <div className="course__no-video">Loading video…</div>
-            ) : typeof currentChapter?.video === "string" ? (
-                <ReactPlayer
-                  key={currentChapter.video}
-                  url={currentChapter.video}
-                  controls
-                  width="100%"
-                  height="100%"
-                  playsinline
-                  onProgress={(state: any) => {
-                    if (
-                      state.played >= 0.8 &&
-                      !hasMarkedComplete &&
-                      currentChapter &&
-                      currentSection &&
-                      userProgress?.sections &&
-                      !isChapterCompleted()
-                    ) {
-                      setHasMarkedComplete(true);
-                      updateChapterProgress(
-                        currentSection.sectionId,
-                        currentChapter.chapterId,
-                        true
-                      );
-                    }
-                  }}
-                  config={{
-                    file: {
-                      forceVideo: true,
-                      attributes: {
-                        preload: "auto",
-                        crossOrigin: "anonymous", // 🔴 THIS IS THE FIX
-                        controlsList: "nodownload",
-                      },
-                    },
-                  }}
-                />
+            {typeof currentChapter?.video === "string" ? (
+              <video
+                key={currentChapter.video}
+                src={currentChapter.video}
+                controls
+                playsInline
+                preload="metadata"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "black",
+                }}
+                onTimeUpdate={(e) => {
+                  const video = e.currentTarget;
+
+                  if (
+                    video.duration &&
+                    video.currentTime / video.duration >= 0.8 &&
+                    !hasMarkedComplete &&
+                    currentChapter &&
+                    currentSection &&
+                    userProgress?.sections &&
+                    !isChapterCompleted()
+                  ) {
+                    setHasMarkedComplete(true);
+                    updateChapterProgress(
+                      currentSection.sectionId,
+                      currentChapter.chapterId,
+                      true
+                    );
+                  }
+                }}
+              />
             ) : (
               <div className="course__no-video">
                 No video available for this chapter.
@@ -110,6 +99,7 @@ const Course = () => {
           </CardContent>
         </Card>
 
+        {/* CONTENT */}
         <div className="course__content">
           <Tabs defaultValue="Notes" className="course__tabs">
             <TabsList className="course__tabs-list">
@@ -141,7 +131,7 @@ const Course = () => {
                   <CardTitle>Resources Content</CardTitle>
                 </CardHeader>
                 <CardContent className="course__tab-body">
-                  {/* Add resources content here */}
+                  {/* future resources */}
                 </CardContent>
               </Card>
             </TabsContent>
@@ -152,12 +142,13 @@ const Course = () => {
                   <CardTitle>Quiz Content</CardTitle>
                 </CardHeader>
                 <CardContent className="course__tab-body">
-                  {/* Add quiz content here */}
+                  {/* future quiz */}
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
 
+          {/* Instructor Card */}
           <Card className="course__instructor-card">
             <CardContent className="course__instructor-info">
               <div className="course__instructor-header">
@@ -167,13 +158,17 @@ const Course = () => {
                     {course.teacherName[0]}
                   </AvatarFallback>
                 </Avatar>
+
                 <div className="course__instructor-details">
                   <h4 className="course__instructor-name">
                     {course.teacherName}
                   </h4>
-                  <p className="course__instructor-title">Senior UX Designer</p>
+                  <p className="course__instructor-title">
+                    Senior UX Designer
+                  </p>
                 </div>
               </div>
+
               <div className="course__instructor-bio">
                 <p>
                   A seasoned Senior UX Designer with over 15 years of experience
