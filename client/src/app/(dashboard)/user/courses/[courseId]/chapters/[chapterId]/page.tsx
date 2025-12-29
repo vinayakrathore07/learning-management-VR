@@ -64,10 +64,10 @@ const Course = () => {
 
         <Card className="course__video">
           <CardContent className="course__video-container">
-            {currentChapter?.video ? (
+            {currentChapter?.video?.video ? (
               <ReactPlayer
                 // ref={playerRef}
-                url={currentChapter.video as string}
+                url={currentChapter.video.video}
                 controls
                 width="100%"
                 height="100%"
