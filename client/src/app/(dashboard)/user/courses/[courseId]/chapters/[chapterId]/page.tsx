@@ -64,13 +64,16 @@ const Course = () => {
 
         <Card className="course__video">
           <CardContent className="course__video-container">
-             {typeof currentChapter?.video === "string" ? (
+            {isLoading ? (
+              <div className="course__no-video">Loading video…</div>
+            ) : typeof currentChapter?.video === "string" ? (
               <ReactPlayer
-                // ref={playerRef}
+                key={currentChapter.video} // ✅ forces remount when URL changes
                 url={currentChapter.video}
                 controls
                 width="100%"
                 height="100%"
+                playsinline
                 onProgress={(state: any) => {
                   if (
                     state.played >= 0.8 &&
@@ -88,22 +91,21 @@ const Course = () => {
                     );
                   }
                 }}
-
                 config={{
                   file: {
+                    forceVideo: true, // ✅ IMPORTANT for mp4
                     attributes: {
+                      preload: "auto",
                       controlsList: "nodownload",
                     },
                   },
                 }}
               />
-                        ) : isLoading ? (
-                  <div className="course__no-video">Loading video…</div>
-                ) : (
-                  <div className="course__no-video">
-                    No video available for this chapter.
-                  </div>
-                        )}
+            ) : (
+              <div className="course__no-video">
+                No video available for this chapter.
+              </div>
+            )}
           </CardContent>
         </Card>
 
